@@ -10,7 +10,7 @@
 
 <body>
 
-    <form action="script.php" method="POST">
+    <form name="form1" action="script.php" method="POST" style="width:400px;margin-left:35%;">
 
         <div class="container">
             <label for="uname"><b>Username</b></label>
@@ -19,7 +19,7 @@
             <label for="psw"><b>Password</b></label>
             <input type="password" placeholder="Enter Password" name="psw" required>
 
-            <button name="mySubmit" type="submit" value="Submit!">Login</button>
+            <button name="mySubmit" type="submit" value="Submit!" onclick="allLetter(document.form1.name)" >Login</button>
 
         </div>
     </form>
@@ -27,10 +27,26 @@
 </body>
 
 
+<script type="text/javascript">
+
+    function allLetter(inputtxt) {
+        var letters = /^[A-Za-z]+$/;
+        if (inputtxt.value.match(letters)) {
+            alert('Your name have accepted');
+            return true;
+        } else {
+            alert('Please input alphabet characters only');
+            return false;
+        }
+    }
+
+</script>
+
 <style>
     /* Bordered form */
     form {
-        margin: 25%;
+        margin: auto;
+        margin-top: 25%;
         border: 3px solid #f1f1f1;
     }
 
@@ -47,7 +63,7 @@
 
     /* Set a style for all buttons */
     button {
-        background-color: #04AA6D;
+        background-color: #4c00ff;
         color: white;
         padding: 14px 20px;
         margin: 8px 0;

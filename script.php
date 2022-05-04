@@ -1,4 +1,5 @@
 
+<h1>Result</h1>
 <?php
 
 $db_host = 'localhost';
@@ -14,35 +15,39 @@ if ($connection->connect_error) {
 }
 echo "Connected successfully \n";
 
-$query = "SELECT * FROM users WHERE name ='" . $_POST['name'] . "'";
 
-$result = mysqli_query($connection, $query);
+if(isset($_POST["name"]))
+{
+    $input = $_POST["name"];
+    $psw = $_POST["psw"];
+    if((ctype_alpha($input)))
+    {
+        print_r($input);
+        echo "string is valid " . $input;
+        
+        $query = "SELECT * FROM users WHERE name = ? and password = ?";
 
-?>
+        $stmt = $connection->prepare($query); 
+        $stmt->bind_param("ss", $input,$psw);
+        $stmt->execute();
+        $result = $stmt->get_result(); // get the mysqli result
+        $result = $result->fetch_assoc(); // fetch data   
+        print_r($result);
 
 
-<h1>Result</h1>
-<table border="1">
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Password</th>
-    </tr>
+    }
+    else
+        echo "sneeky sneeky";
 
-
-    <?php
-while ($row = mysqli_fetch_assoc($result)) {
-    ?>
-
-<tr>
-    <td><?php echo $row['name']; ?></td>
-    <td><?php echo $row['email']; ?></td>
-    <td><?php echo $row['password']; ?></td>
-</tr>
-<?php
+        //give 404 error
+        http_response_code(404);
+        
 }
+
 ?>
-</table>
+
+
+
 
 
 <!DOCTYPE html>
@@ -67,13 +72,5 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <div><pre style="color:#00f;"><?php echo $query_display; ?></pre></div>
 
-
-
-
-
-
 </body>
-
-
-
 </html>
